@@ -1,0 +1,434 @@
+<!DOCTYPE html> 
+<html>
+<head> 
+	<meta charset="UTF-8"> 
+	<title>jQuery入門（仮題） - rewish</title>
+	<link rel="stylesheet" href="prettify/prettify.css">
+	<link rel="stylesheet" href="nerine/nerine.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="prettify/prettify.js"></script> 
+	<script src="nerine/jquery.js"></script> 
+	<script src="nerine/nerine.js"></script> 
+</head>
+<body> 
+
+<article> 
+
+<section class="title">
+	<h1>jQuery入門（仮題）</h1>
+	<p>@<a href="//twitter.com/rewish">rewish</a></p>
+</section>
+
+<section>
+	<h2>自己紹介</h2>
+	<div class="photo" style="overflow:hidden;">
+		<p style="float: left; margin: 0 20px 0 0;"><img src="img/photo_big.jpg"></p>
+		<p style="font-size: 150%;">帆秋 洋志 (@rewish)</p>
+	</div>
+	<ul style="padding: 0 0 0 50px;">
+		<li>フリーランスのWebデベロッパー</li>
+		<li>やってること
+			<ul>
+				<li>Webシステム開発</li>
+				<li>iPhoneアプリ開発</li>
+				<li>サーバ構築</li>
+				<li>CMSなど</li>
+			</ul>
+		</li>
+		<li>勉強会やってます .+ (どっとぷらす)</li>
+	</ul>
+</section>
+
+<section>
+	<h2>jQueryの基本的な文法</h2>
+	<p>特に理由が無ければ以下のように書く。</p>
+<pre class="prettyprint">
+&lt;script&gt;
+  jQuery(document).ready(function($) {
+    // なんか処理
+  });
+
+  もしくは
+
+  jQuery(function(<span effect="delayMark" title="function内でのみで有効なjQueryエイリアス"><span class="arrow">$</span></span>) {
+    // なんか処理
+  });
+&lt;/script&gt;
+</pre>
+</section>
+
+<section>
+	<h2>jQueryの基本的な文法</h2>
+		<p>ちなみにコレはダメな例</p>
+<pre class="prettyprint">
+$(document).ready(function() {
+  // なんか処理
+});
+
+<span effect="delayMark" title="グローバルな$を使うのはキケン"><span class="arrow">$</span></span>(function() {
+  // なんか処理
+});
+</pre>
+</section>
+
+<section>
+	<h2>特徴1: CSSセレクタで要素を取得</h2>
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').css({backgroundColor: '#F00'});
+});
+</pre>
+	<div id="cssSelector">
+		<p>あいうえお、かきくけこ、とみせかけて、さしすせそ</p>
+	</div>
+	<button id="cssSelectorExecute">実行</button>
+	<script>
+		$('#cssSelectorExecute').click(function() {
+			$('#cssSelector p').css({backgroundColor: '#F00'});
+		});
+	</script>
+</section>
+
+<section>
+	<h2>特徴2: メソッドチェーンで処理を繋ぐ</h2>
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p')
+    .css({backgroundColor: '#F00'})
+    .text('ほげぴよ');
+});
+</pre>
+	<div id="methodChain">
+		<p>あいうえお、かきくけこ、とみせかけて、さしすせそ</p>
+	</div>
+	<button id="methodChainExecute">実行</button>
+	<script>
+		$('#methodChainExecute').click(function() {
+			$('#methodChain p').css({backgroundColor: '#F00'}).text('ほげぴよ');
+		});
+	</script>
+	<p effect="fade">注意) センスのないメソッドチェーンはカオスの元！</p>
+</section>
+
+<section>
+	<h2>特徴3: eachメソッド</h2>
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').each(function(i) {
+    if (i % 2 === 0) {
+      $(<span effect="delayMark" title="thisでそれぞれの要素が取れる"><span class="arrow">this</span></span>).text('オレ偶数！');
+    } else {
+      $(this).text('ワタシ奇数！');
+    }
+  });
+});
+</pre>
+	<div id="each">
+		<p>うううううううん！</p>
+		<p>うううううううん？</p>
+	</div>
+	<button id="eachExecute">実行</button>
+	<script>
+		$('#eachExecute').click(function() {
+			$('#each p').each(function(i) {
+				if (i % 2 === 0) {
+					$(this).text('オレ偶数！');
+				} else {
+					$(this).text('ワタシ奇数！');
+				}
+			});
+		});
+	</script>
+</section>
+
+<section>
+	<h2>演習1</h2>
+	<p>とりあえず手を動かしましょうか！</p>
+<pre class="prettyprint">
+&lt;div&gt;
+  &lt;p&gt;うううううううん！&lt;/p&gt;
+  &lt;p&gt;うううううううん？&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+
+	<div effect="fade">
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').each(function(i) {
+    if (i % 2 === 0) {
+      $(this).text('オレ偶数！');
+    } else {
+      $(this).text('ワタシ奇数！');
+    }
+  });
+});
+</pre>
+	<div>
+</section>
+
+<section>
+	<h2>DOMを操作するメソッド</h2>
+	<p>先ほどcss()とtext()を使いましたが、他にも様々なメソッドが用意されています。</p>
+	<ul>
+		<li>css()</li>
+		<li>text()</li>
+		<li>attr()</li>
+		<li>removeAttr()</li>
+		<li>addClass()</li>
+		<li>removeClass()</li>
+		<li>toggleClass()</li>
+		<li>html()</li>
+		<li>val()</li>
+	</ul>
+</section>
+
+<section>
+	<h2>DOMを操作するメソッド：軽く説明</h2>
+<pre class="prettyprint">
+// Getter
+$('div p').attr('title');
+
+// Setter
+$('div p').attr('title', 'たいとる');
+</pre>
+<pre class="prettyprint">
+// Getter
+$('div p').css('backgroundColor');
+
+// Setter
+$('div p').css('backbroundColor', '#FFF');
+</pre>
+</section>
+
+<section>
+	<h2>DOMを操作するメソッド：軽く説明</h2>
+<pre class="prettyprint">
+// Getter
+$('div p').text();
+
+// Setter
+$('div p').text('てきすと');
+</pre>
+
+<p effect="fade">html()やval()も同じように取ったり設定したりできる</p>
+</section>
+
+<section>
+	<h2>DOMを操作するメソッド：軽く説明</h2>
+<pre class="prettyprint">
+$('div p').addClass('新しいclass属性');
+
+$('div p').removeClass('消すclass属性');
+
+$('div p').toggleClass('無ければ追加するclass属性');
+</pre>
+</section>
+
+<section>
+	<h2>演習2</h2>
+	<p>色々操作してみてください！</p>
+</pre>
+	<div>
+</section>
+
+<section>
+	<h2>イベント</h2>
+	<p>jQueryならDOMイベントも簡単にバインドできます。</p>
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').each(function(i) {
+    $(this).click(function() {
+      $(this).text(i % 2 === 0 ? 'オレ偶数！' : 'ワタシ奇数！');
+    });
+  });
+});
+</pre>
+	<div id="event">
+		<p>あわわわわあわわわわ</p>
+		<p>あわわわわあわわわわ</p>
+		<p>あわわわわあわわわわ</p>
+	</div>
+	<script>
+		$('#event p').each(function(i) {
+			$(this).click(function() {
+				$(this).text(i % 2 === 0 ? 'オレ偶数！' : 'ワタシ奇数！');
+			});
+		});
+	</script>
+</section>
+
+<section>
+	<h2>イベント：種類</h2>
+	<p>イベントバインド用のメソッド(エイリアス)が多数用意されています。</p>
+	<ul>
+		<li>click()</li>
+		<li>hover()</li>
+		<li>focus()</li>
+		<li>blur()</li>
+		<li>change()</li>
+		<li>dclick()</li>
+		<li>keypress()</li>
+		<li>scroll()</li>
+		<li>他</li>
+	</ul>
+	<p effect="fade">今回はclickのみ使います。</p>
+</section>
+
+<section>
+	<h2>演習3</h2>
+	<p>先ほどの演習で作ったスクリプトにclickをバインドしてください！</p>
+	<div effect="fade">
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').each(function(i) {
+    $(this).click(function() {
+      if (i % 2 === 0) {
+        $(this).text('オレ偶数！');
+      } else {
+        $(this).text('ワタシ奇数！');
+      }
+    }):
+  });
+});
+</pre>
+	<div>
+</section>
+
+<section>
+	<h2>エフェクト：種類</h2>
+	<p>jQueryには標準で様々なエフェクトがあります。</p>
+	<ul effect="fade">
+		<li>show()</li>
+		<li>hide()</li>
+		<li>toggle()</li>
+		<li>slideUp()</li>
+		<li>slideDown()</li>
+		<li>slideToggle()</li>
+		<li>fadeOut()</li>
+		<li>fadeIn()</li>
+		<li>fadeTo()</li>
+		<li>animate()</li>
+	</ul>
+</section>
+
+<section>
+	<h2>エフェクト：基本的な使い方</h2>
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').slideUp(<span effect="delayMark" title="実行時間をミリ秒(1/1000)単位で指定"><span class="arrow">500</span></span>, <span effect="delayMark" title="アニメーション終了時に実行する処理"><span class="arrow">function()</span></span> {
+    $(this).slideDown(500);
+  });
+});
+</pre>
+	<p id="effect" style="padding:10px;background:#CCC;color:#111;">伸びたり縮んだり</p>
+	<button id="effectExecute">実行</button>
+	<script>
+		$('#effectExecute').click(function() {
+			$('#effect').slideUp(1000, function() {
+				$(this).slideDown(1000);
+			});
+		});
+	</script>
+</section>
+
+<section>
+	<h2>演習4</h2>
+	<p>clickしたらslideUp＆slideDownを実行するようにしてください！</p>
+	<div effect="fade">
+<pre class="prettyprint">
+jQuery(function($) {
+  $('div p').each(function() {
+    $(this).click(function() {
+      $(this).slideUp(500, function() {
+        $(this).slideDown(500);
+      });
+    }):
+  });
+});
+</pre>
+	</div>
+</section>
+
+<section>
+	<h2>Ajax (XMLHttpRequest)</h2>
+	<p>これが無いとWebアプリ作れないしー。</p>
+	<p>jQuery.ajax()を使うと細い設定が行えますが、今回はさくっと組み込むのに便利なエイリアスを使います。</p>
+	<ul effect="fade">
+		<li>jQuery.get()</li>
+		<li>jQuery.post()</li>
+		<li>jQuery.getJSON()</li>
+		<li>$().load()</li>
+	</ul>
+</section>
+
+<section>
+	<h2>Ajax：使い方</h2>
+<pre class="prettyprint">
+jQuery(function($) {
+  $.get(<span effect="delayMark" title="取得するURL"><span class="arrow">'example.html'</span></span>, <span effect="delayMark" title="パラメータ(省略可)"><span class="arrow">{hoge: 'fuga'}</span></span>, function(html) {
+    // example.html?hoge=fuga
+    $('#target').html(html);
+  });
+});
+</pre>
+	<div effect="fade">
+		<p>パラメータは省略することも可能</p>
+<pre class="prettyprint">
+jQuery(function($) {
+  $.get('example.html', function(html) {
+    $('#target').html(html);
+  });
+});
+</pre>
+	</div>
+	<p effect="fade">post()やgetJSON()も同じように使えます。</p>
+</section>
+
+<section>
+	<h2>Ajax：使い方</h2>
+<pre class="prettyprint">
+jQuery(function($) {
+  $('#target').load('example.html', {hoge: fuga}, function() {
+    // 他に処理があれば書く
+  });
+});
+</pre>
+	<div id="ajax">ここに読み込む</div>
+	<button id="ajaxExecute">実行</button>
+	<script>
+		$('#ajaxExecute').click(function() {
+			$('#ajax').load('ajax.html');
+		});
+	</script>
+</section>
+
+<section>
+	<h2>演習5</h2>
+	<p>bodyの中身だけ書いたHTMLファイルを作り、それをget()やload()で読み込んで表示してください！</p>
+<pre class="prettyprint">
+&lt;div&gt;
+  &lt;p&gt;これを&lt;/p&gt;
+  &lt;p&gt;読み込んで&lt;/p&gt;
+  &lt;p&gt;表示しようかな&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+	<p effect="fade">注意) fileスキームだとAjax出来ないのでRailsのターーーーーン！</p>
+</section>
+
+<section class="last">
+	<p>Thank you!</p>
+</section>
+
+</article>
+
+<script type="text/javascript">
+$('a[href^="http://"], a[href^="file://"]').each(function() {
+	$(this).attr('target', '_blank');
+})
+prettyPrint();
+Nerine.lines = 30;
+Nerine.aspects = [[4,3], [16,9]];
+Nerine.initialize();
+</script>
+</body>
+</html>
